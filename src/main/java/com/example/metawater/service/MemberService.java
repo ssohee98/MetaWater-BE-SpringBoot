@@ -1,19 +1,26 @@
 package com.example.metawater.service;
 
 import com.example.metawater.domain.MemberVO;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.List;
-
-@Service
 public interface MemberService extends UserDetailsService {
 
+    //회원가입
     public void createMember(MemberVO memberVO);
 
-//    public MemberVO getUserById(String id);
+    //로그인
+    @Override
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException;
 
-//    public boolean remove(Long userid);
+    //아이디 중복체크
+    public MemberVO checkMemberInfo(String id);
+    public MemberVO membersData(String id);
+    public boolean updateMember(MemberVO memberVO);
+    public void deleteMember(MemberVO memberVO);
+
+    //    public boolean remove(Long userid);
 //    public List<MemberVO> getUserList();
 
     //회원가입

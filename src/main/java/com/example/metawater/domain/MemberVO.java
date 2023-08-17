@@ -4,60 +4,58 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import java.beans.SimpleBeanInfo;
+import java.util.*;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberVO implements UserDetails {
+public class MemberVO implements UserDetails{
+//public class MemberVO{
 
     private Long memNo;
-
-    //UserDTO user;
-    private String memId;     //ID
-    private String memPw;    //PW
+    private String memId;
+    private String memPw;
     private String memName;
     private String memPhone;
     private String memEmail;
     private String auth;
+    private Integer status;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority(auth));
     }
+
+    @Override
+    public String getUsername() {return memId;}
 
     @Override
     public String getPassword() {
-        return null;
+        return memPw;
     }
 
     @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
+    public boolean isAccountNonExpired() { return true;}
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return status == 1;
     }
-    //private Long enabled;
-    //private List<AuthVO> auth;
 }
